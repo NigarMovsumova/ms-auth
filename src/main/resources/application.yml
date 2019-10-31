@@ -1,0 +1,29 @@
+server:
+  port: 8282
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/reg_db
+    username: postgres
+    password: admin
+  jpa:
+    database: postgresql
+    properties:
+      hibernate.temp.use_jdbc_metadata_defaults: false
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    locations: classpath:migration
+    baseline-on-migrate: true
+jwt:
+  secret: mySecretSignature
+  expiration: 604800
+  header: X-Auth-Token
+swagger:
+  enabled: true
+
+
