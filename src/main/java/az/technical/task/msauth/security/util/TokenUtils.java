@@ -29,10 +29,12 @@ public class TokenUtils {
 
     public UserInfo getUserInfoFromToken(String token) {
         String customerId = getClaimFromToken(token, Claims::getId);
-        System.out.println(customerId);
         String email = getClaimFromToken(token, Claims::getSubject);
+        String role= getAllClaimsFromToken(token).get("role").toString();
         UserInfo userInfo = UserInfo
                 .builder()
+                .token(token)
+                .role(role)
                 .customerId(customerId)
                 .email(email)
                 .build();
@@ -55,9 +57,10 @@ public class TokenUtils {
                 .getBody();
     }
 
-    public String generateToken(String username, String customerId) {
+    public String generateToken(String username, String customerId, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("customerId", customerId);
+        claims.put("role", role);
         return doGenerateToken(claims, username, customerId);
     }
 

@@ -20,7 +20,6 @@ public class AuthenticationService {
 
     private final TokenUtils tokenUtils;
     private final UserRepository repository;
-
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationService(TokenUtils tokenUtils,
@@ -35,7 +34,8 @@ public class AuthenticationService {
         authenticate(request.getEmail(), request.getPassword());
         UserEntity userEntity = repository.findByEmail(request.getEmail());
         String customerId = userEntity.getId().toString();
-        String token = tokenUtils.generateToken(request.getEmail(), customerId);
+        String role= userEntity.getRole().toString();
+        String token = tokenUtils.generateToken(request.getEmail(), customerId, role);
         return new JwtAuthenticationResponse(token);
     }
 

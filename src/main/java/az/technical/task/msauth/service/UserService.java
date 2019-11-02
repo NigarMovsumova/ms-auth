@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository repository;
 
-    public UserEntity signUp(UserDto userDto) {
+    public void signUp(UserDto userDto) {
         UserEntity checkUsername = repository.findByEmail(userDto.getEmail());
         UserEntity checkEmail = repository.findByEmail(userDto.getEmail());
         if (checkUsername == null && checkEmail == null) {
@@ -31,7 +31,6 @@ public class UserService {
             user.setPassword(password);
             user.setRole(Role.ROLE_USER);
             repository.save(user);
-            return user;
         } else if (checkUsername != null) {
             throw new WrongDataException("this username already exists");
         } else {
@@ -51,6 +50,4 @@ public class UserService {
         }
         return false;
     }
-
-
 }

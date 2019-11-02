@@ -24,7 +24,6 @@ public class SecurityUserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         UserEntity user = repository.findByEmail(username);
-
         return buildSecurityUser(user);
     }
 
