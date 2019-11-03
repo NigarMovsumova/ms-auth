@@ -1,9 +1,10 @@
 package az.technical.task.msauth.security.service;
 
-import az.technical.task.msauth.model.entity.UserEntity;
-import az.technical.task.msauth.repository.UserRepository;
+import az.technical.task.msauth.exception.WrongDataException;
+import az.technical.task.msauth.model.entity.CustomerEntity;
+import az.technical.task.msauth.repository.CustomerRepository;
 import az.technical.task.msauth.security.exceptions.AuthenticationException;
-import az.technical.task.msauth.security.model.UserInfo;
+import az.technical.task.msauth.security.model.CustomerInfo;
 import az.technical.task.msauth.security.model.dto.JwtAuthenticationRequest;
 import az.technical.task.msauth.security.model.dto.JwtAuthenticationResponse;
 import az.technical.task.msauth.security.util.TokenUtils;
@@ -19,12 +20,11 @@ import java.util.Objects;
 public class AuthenticationService {
 
     private final TokenUtils tokenUtils;
-    private final UserRepository repository;
-
+    private final CustomerRepository repository;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationService(TokenUtils tokenUtils,
-                                 UserRepository repository, AuthenticationManager authenticationManager) {
+                                 CustomerRepository repository, AuthenticationManager authenticationManager) {
         this.tokenUtils = tokenUtils;
         this.repository = repository;
         this.authenticationManager = authenticationManager;
@@ -33,9 +33,12 @@ public class AuthenticationService {
     public JwtAuthenticationResponse createAuthenticationToken(JwtAuthenticationRequest request) {
 
         authenticate(request.getEmail(), request.getPassword());
-        UserEntity userEntity = repository.findByEmail(request.getEmail());
+        CustomerEntity userEntity = repository
+                .findByEmail(request.getEmail())
+                .orElseThrow(() -> new WrongDataException("Email is not registered"));
         String customerId = userEntity.getId().toString();
-        String token = tokenUtils.generateToken(request.getEmail(), customerId);
+        String role = userEntity.getRole().toString();
+        String token = tokenUtils.generateToken(request.getEmail(), customerId, role);
         return new JwtAuthenticationResponse(token);
     }
 
@@ -52,7 +55,7 @@ public class AuthenticationService {
         }
     }
 
-    public UserInfo validateToken(String token) {
+    public CustomerInfo validateToken(String token) {
         tokenUtils.isTokenValid(token);
         return tokenUtils.getUserInfoFromToken(token);
     }
