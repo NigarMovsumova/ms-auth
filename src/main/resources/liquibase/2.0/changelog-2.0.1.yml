@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert mock customers
+      author: Nigar Movsumova
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: birth_date
+                  value: now()
+              - column:
+                  name: created_at
+                  value: now()
+              - column:
+                  name: updated_at
+                  value: now()
+              - column:
+                  name:  email
+                  value: movsumova.nigar1@gmail.com
+              - column:
+                  name: name
+                  value: Nigar
+              - column:
+                  name: password
+                  value: $2a$10$s5xFqr4cH9bTm1HidKlJi.Ban/ZQ3dXq3t6pjuVXwClYL5aQ2rcQW
+              - column:
+                  name: role
+                  value: ROLE_ADMIN
+              - column:
+                  name: surname
+                  value: Movsum
+              - column:
+                  name: username
+                  value: NigarMovsumova
+            tableName: customers
+            remarks: insert initial data in customers
