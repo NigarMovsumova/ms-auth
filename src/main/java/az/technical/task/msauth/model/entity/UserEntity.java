@@ -19,7 +19,6 @@ import java.time.LocalDate;
 @Table(name = "users")
 public class UserEntity {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

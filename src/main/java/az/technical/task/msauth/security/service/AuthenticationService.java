@@ -1,5 +1,6 @@
 package az.technical.task.msauth.security.service;
 
+import az.technical.task.msauth.exception.WrongDataException;
 import az.technical.task.msauth.model.entity.UserEntity;
 import az.technical.task.msauth.repository.UserRepository;
 import az.technical.task.msauth.security.exceptions.AuthenticationException;
@@ -32,7 +33,9 @@ public class AuthenticationService {
     public JwtAuthenticationResponse createAuthenticationToken(JwtAuthenticationRequest request) {
 
         authenticate(request.getEmail(), request.getPassword());
-        UserEntity userEntity = repository.findByEmail(request.getEmail());
+        UserEntity userEntity = repository
+                .findByEmail(request.getEmail())
+                .orElseThrow(()-> new WrongDataException("No such email is registered"));;
         String customerId = userEntity.getId().toString();
         String role= userEntity.getRole().toString();
         String token = tokenUtils.generateToken(request.getEmail(), customerId, role);

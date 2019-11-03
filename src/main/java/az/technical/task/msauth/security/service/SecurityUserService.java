@@ -1,6 +1,7 @@
 package az.technical.task.msauth.security.service;
 
 
+import az.technical.task.msauth.exception.WrongDataException;
 import az.technical.task.msauth.model.entity.UserEntity;
 import az.technical.task.msauth.repository.UserRepository;
 import az.technical.task.msauth.security.model.SecurityUser;
@@ -23,7 +24,9 @@ public class SecurityUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserEntity user = repository.findByEmail(username);
+        UserEntity user = repository
+                .findByEmail(username)
+                .orElseThrow(()-> new WrongDataException("No such email is registered"));;
         return buildSecurityUser(user);
     }
 
