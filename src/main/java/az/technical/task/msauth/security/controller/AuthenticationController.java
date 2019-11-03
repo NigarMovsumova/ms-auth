@@ -6,7 +6,6 @@ import az.technical.task.msauth.security.model.dto.JwtAuthenticationResponse;
 import az.technical.task.msauth.security.service.AuthenticationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +35,7 @@ public class AuthenticationController {
         return service.createAuthenticationToken(request);
     }
 
+    @ApiOperation("if token is valid, returns customer information")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/validate")
     public CustomerInfo validateToken(@RequestHeader("X-Auth-Token") String token) {

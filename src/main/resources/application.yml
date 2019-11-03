@@ -16,14 +16,11 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: validate
-  flyway:
-    locations: classpath:migration
-    baseline-on-migrate: true
+  liquibase:
+    change-log: classpath:liquibase/changelog-master.yml
 jwt:
   secret: mySecretSignature
   expiration: 604800
   header: X-Auth-Token
 swagger:
   enabled: true
-
-
