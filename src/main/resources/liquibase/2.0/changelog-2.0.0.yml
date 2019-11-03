@@ -33,4 +33,4 @@ databaseChangeLog:
                   name: username
                   value: NigarMovsum
             tableName: customers
-            remarks: insert initial data in customers
+            remarks: insert mock customer in customers

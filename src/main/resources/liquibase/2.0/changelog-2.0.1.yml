@@ -33,4 +33,4 @@ databaseChangeLog:
                   name: username
                   value: NigarMovsumova
             tableName: customers
-            remarks: insert initial data in customers
+            remarks: insert mock admin customer in customers
