@@ -17,6 +17,8 @@ import lombok.Setter;
 public class JwtAuthenticationRequest {
     @ApiModelProperty(name = "email")
     private String email;
+
+    @ApiModelProperty(name = "password")
     private String password;
 
 }

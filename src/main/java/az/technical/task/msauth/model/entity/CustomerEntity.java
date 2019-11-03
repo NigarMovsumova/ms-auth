@@ -2,7 +2,10 @@ package az.technical.task.msauth.model.entity;
 
 import az.technical.task.msauth.security.model.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +20,10 @@ import java.time.LocalDate;
 @Entity
 @Data
 @Table(name = "users")
-public class UserEntity {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class CustomerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

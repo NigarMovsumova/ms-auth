@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SecurityUser implements UserDetails {
+public class SecurityCustomer implements UserDetails {
     private String username;
 
     private String email;
@@ -44,10 +44,6 @@ public class SecurityUser implements UserDetails {
     @Override
     public String getUsername() {
         return this.username;
-    }
-
-    public String getEmail() {
-        return this.email;
     }
 
     @Override

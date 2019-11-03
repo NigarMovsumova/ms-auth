@@ -14,5 +14,4 @@ public class JwtAuthenticationResponse {
     public JwtAuthenticationResponse(String token) {
         this.token = token;
     }
-
 }

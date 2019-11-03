@@ -1,13 +1,12 @@
 package az.technical.task.msauth.security.util;
 
-import az.technical.task.msauth.security.model.UserInfo;
+import az.technical.task.msauth.security.model.CustomerInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClock;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -27,11 +26,11 @@ public class TokenUtils {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    public UserInfo getUserInfoFromToken(String token) {
+    public CustomerInfo getUserInfoFromToken(String token) {
         String customerId = getClaimFromToken(token, Claims::getId);
         String email = getClaimFromToken(token, Claims::getSubject);
-        String role= getAllClaimsFromToken(token).get("role").toString();
-        UserInfo userInfo = UserInfo
+        String role = getAllClaimsFromToken(token).get("role").toString();
+        CustomerInfo userInfo = CustomerInfo
                 .builder()
                 .token(token)
                 .role(role)
@@ -39,10 +38,6 @@ public class TokenUtils {
                 .email(email)
                 .build();
         return userInfo;
-    }
-
-    public String getUsernameFromToken(String token) {
-        return getClaimFromToken(token, Claims::getSubject);
     }
 
     private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
@@ -77,22 +72,10 @@ public class TokenUtils {
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
-
     }
 
     private Date calculateExpirationDate(Date createdDate) {
         return new Date(createdDate.getTime() + expiration * 100);
-    }
-
-    public boolean validateToken(String token, UserDetails userDetails) {
-        if (Objects.isNull(userDetails) || Objects.isNull(token)) {
-            return false;
-        }
-        String username = getUsernameFromToken(token);
-
-        return Objects.equals(
-                username, userDetails.getUsername())
-                && !isTokenExpired(token);
     }
 
 
